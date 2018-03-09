@@ -3,8 +3,8 @@ package glumi
 import (
 	"strings"
 	"fmt"
-	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/GUMI-golang/glumi/glumiAssets"
+	"github.com/go-gl/gl/all-core/gl"
 )
 
 const DefaultVertexShader = "DefaultShader.vs.glsl"
@@ -20,7 +20,7 @@ type _DefaultShader struct{
 func (s *_DefaultShader) Load() (err error) {
 	//DefaultShader
 	DefaultShader.Source.Vertex = string(glumiAssets.MustAsset(DefaultVertexShader))
-	DefaultShader.Source.Fragment = string(glumiAssets.MustAsset(DefaultVertexShader))
+	DefaultShader.Source.Fragment = string(glumiAssets.MustAsset(DefaultFlagmentShader))
 	DefaultShader.Compiled.Vertex, err = compileShader(DefaultShader.Source.Vertex, gl.VERTEX_SHADER)
 	if err != nil {
 		return err

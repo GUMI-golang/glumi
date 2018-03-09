@@ -1,9 +1,8 @@
 package glumi
 
 import (
-	"github.com/iamGreedy/gumi"
 	"time"
-	"fmt"
+	"github.com/GUMI-golang/gumi"
 )
 
 type GLUMIFullScreen struct {
@@ -49,9 +48,7 @@ func (s *GLUMIFullScreen) Loop(fnBefore, fnAfter func(lumi *GLUMIFullScreen) err
 	defer s.fps.Stop()
 	var prev, curr time.Time
 	var loopcount uint64 = 0
-	var startAt time.Time
 	prev = s.fps.Wait()
-	startAt = prev
 	for ;true;loopcount++{
 		curr = s.fps.Wait()
 		err = fnBefore(s)
@@ -72,8 +69,6 @@ func (s *GLUMIFullScreen) Loop(fnBefore, fnAfter func(lumi *GLUMIFullScreen) err
 		}
 		prev = curr
 	}
-	avgupdate := time.Now().Sub(startAt).Seconds()/float64(loopcount)
-	fmt.Println(avgupdate)
 	if err == Stop{
 		return nil
 	}

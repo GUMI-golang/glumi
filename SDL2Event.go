@@ -2,8 +2,8 @@ package glumi
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
-	"github.com/iamGreedy/gumi"
 	"unicode/utf8"
+	"github.com/GUMI-golang/gumi"
 )
 
 type Handler struct {
