@@ -31,7 +31,7 @@ func (s *GLUMIFullScreen) Init(fps int) error {
 	if fps == 0{
 		s.fps = &LimitlessFPS{}
 	}else {
-		s.fps = &IntervalFPS{interval:(1000 * time.Millisecond) / time.Duration(fps) / 8}
+		s.fps = &IntervalFPS{interval:(time.Second) / time.Duration(fps)}
 	}
 
 	return nil
