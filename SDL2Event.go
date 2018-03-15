@@ -457,7 +457,7 @@ func (s *Handler) Scrool(event *sdl.MouseWheelEvent) {
 }
 func (s *Handler) RuneEdit(event *sdl.TextEditingEvent) {
 	r, size := utf8.DecodeRune(event.Text[:])
-	if size <= 0 || r == 0{
+	if size <= 0{
 		return
 	}
 	s.glumi.screen.Event(gumi.EventRuneEdit{
