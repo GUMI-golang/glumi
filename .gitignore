@@ -14,7 +14,7 @@
 .glide/
 
 # idea caches
-./idea
+.idea/
 
 # User-specific stuff:
 .idea/**/workspace.xml
