@@ -1,16 +1,18 @@
 package glumi
 
 import (
-	"github.com/veandco/go-sdl2/sdl"
-	"unicode/utf8"
 	"github.com/GUMI-golang/gumi"
+	"github.com/veandco/go-sdl2/sdl"
+	"image"
+	"unicode/utf8"
 )
 
 type Handler struct {
-	glumi *GLUMIFullScreen
+	glumi  *GLUMIFullScreen
 	keymap map[gumi.GUMIKey]gumi.EventKind
 }
-func (s *Handler) Handle(event sdl.Event) error{
+
+func (s *Handler) Handle(event sdl.Event) error {
 	switch t := event.(type) {
 	case *sdl.QuitEvent:
 		return Stop
@@ -395,37 +397,37 @@ func (s *Handler) Key(event *sdl.KeyboardEvent) {
 	case sdl.SCANCODE_APP2:
 	}
 
-	switch event.Type{
+	switch event.Type {
 	default:
 	case sdl.KEYDOWN:
-		if v, ok := s.keymap[key] ; ok && v == gumi.EVENT_KEYPRESS{
+		if v, ok := s.keymap[key]; ok && v == gumi.EVENT_KEYPRESS {
 			return
 		}
 		s.keymap[key] = gumi.EVENT_KEYPRESS
 		s.glumi.screen.Event(gumi.EventKeyPress{
-			Key:key,
+			Key: key,
 		})
 	case sdl.KEYUP:
-		if v, ok := s.keymap[key] ; ok && v == gumi.EVENT_KEYRELEASE{
+		if v, ok := s.keymap[key]; ok && v == gumi.EVENT_KEYRELEASE {
 			return
 		}
 		s.keymap[key] = gumi.EVENT_KEYRELEASE
 		s.glumi.screen.Event(gumi.EventKeyRelease{
-			Key:key,
+			Key: key,
 		})
 
 	}
 }
 func (s *Handler) Cursor(event *sdl.MouseMotionEvent) {
-
 	s.glumi.screen.Event(gumi.EventCursor{
-		X:uint16(event.X),
-		Y:uint16(event.Y),
+		Point: image.Point{
+			X: int(event.X), Y: int(event.Y),
+		},
 	})
 }
 func (s *Handler) Mouse(event *sdl.MouseButtonEvent) {
 	var key gumi.GUMIKey
-	switch event.Button{
+	switch event.Button {
 	case sdl.BUTTON_LEFT:
 		key = gumi.KEY_MOUSE1
 	case sdl.BUTTON_MIDDLE:
@@ -437,39 +439,41 @@ func (s *Handler) Mouse(event *sdl.MouseButtonEvent) {
 	default:
 		key = gumi.KEY_UNKNOWN
 	}
-	switch event.Type{
+	switch event.Type {
 	default:
 	case sdl.MOUSEBUTTONDOWN:
 		s.glumi.screen.Event(gumi.EventKeyPress{
-			Key:key,
+			Key: key,
 		})
 	case sdl.MOUSEBUTTONUP:
 		s.glumi.screen.Event(gumi.EventKeyRelease{
-			Key:key,
+			Key: key,
 		})
 	}
 }
 func (s *Handler) Scrool(event *sdl.MouseWheelEvent) {
 	s.glumi.screen.Event(gumi.EventScroll{
-		X:event.X,
-		Y:-event.Y,
+		Point: image.Point{
+			X: int(event.X),
+			Y: -int(event.Y),
+		},
 	})
 }
 func (s *Handler) RuneEdit(event *sdl.TextEditingEvent) {
 	r, size := utf8.DecodeRune(event.Text[:])
-	if size <= 0{
+	if size <= 0 {
 		return
 	}
 	s.glumi.screen.Event(gumi.EventRuneEdit{
-		Rune:r,
+		Rune: r,
 	})
 }
 func (s *Handler) RuneComplete(event *sdl.TextInputEvent) {
 	r, size := utf8.DecodeRune(event.Text[:])
-	if size <= 0  || r == 0{
+	if size <= 0 || r == 0 {
 		return
 	}
 	s.glumi.screen.Event(gumi.EventRuneComplete{
-		Rune:r,
+		Rune: r,
 	})
 }
